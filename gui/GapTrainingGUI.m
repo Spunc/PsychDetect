@@ -191,7 +191,7 @@ methods (Access = private)
     function saveParameters(this)
         % Save editable parameters for gap training (maxReactionTime,
         % stimTrainerConfig)
-        trainingConfig.maxReactionTime = this.ec.getMaxReactionTime;
+        trainingConfig.maxReactionTime = this.ec.maxReactionTime;
         trainingConfig.stimTrainerConfig = ...
             publicProperties2Struct(this.ec.audioObjectGenerator);
         trainingConfig.stimTrainerConfig.method = class( ...
