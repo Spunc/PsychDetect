@@ -56,6 +56,7 @@ ecConfig.audioPlayer = createObjFromTree(audioPlayerConfig);
 ecConfig.maxReactionTime = maxReactionTime;
 ecConfig.audioObjectGenerator = aoGenerator;
 ec = ExperimentController(ecConfig);
+ec.setReinsertTrials(true);
 
 % Register LogBook
 lb = LogBook();

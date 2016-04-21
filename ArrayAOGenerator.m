@@ -51,7 +51,7 @@ methods
 
     function append(this, aoObject)
         % Append an AudioObject to end of aoArray
-        this.aoObject(end+1) = aoObject;
+        this.aoArray(end+1) = aoObject;
     end
 
 end
