@@ -33,6 +33,7 @@ methods
         this.logBook = logBook;
         this.initGUI();
         set(this.window, 'Visible','on');
+        movegui(this.window, [200, -200]);
     end
 
 end
