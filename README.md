@@ -15,6 +15,39 @@ The main components are:
 * an I/O interface through which the subject can react upon stimuli and get feedback about his performance
 * a logbook that keeps track of experimental events like stimulus presentation and subject responses
 
+## Getting started
+
+### Prerequisites
+
+#### Software
+
+PsychDetect needs at least Matlab Version 2015b. (It has not been tested for newer versions yet.)  
+In addition, you need [Psychtoolbox-3](http://psychtoolbox.org/) to be installed.
+
+#### Hardware
+
+You need a sound device that fulfils your specific needs. We run the software on a Windows machine with a high-end ASIO sound device with 192 kHz sampling rate for ultrasonic stimulation. We also tested the software with a common “sound on board” device at different sampling rates. Both set-ups run without latency issues.
+
+### Install
+
+1. Clone the repository or download the zip-archive and extract it at your preferred location.
+2. Add the root directory to your Matlab path.
+3. Change to *test/* and type `runtests` and verify that all tests pass.
+
+### Run a demonstration session 
+
+Type `runExampleGapSession` to run a demonstration of a psychoacoustic gap detection experiment.
+
+The demonstration program will open two windows. The left window lets you control the experiment. It contains buttons for starting, stopping, and saving the experimental session. The right window is a demo implementation of the subject's input device. The subject uses it to initiate trials and to respond upon detected stimuli.
+
+1. Focus on the left window and click on “Start”. This will make the audio player playing white noise.
+2. Focus on the right window and hold downs the space key to initiate a trial.
+3. After a random delay, the audio player will insert a small gap of silence into the noise.
+4. Release the space key as soon as you identify a gap.
+5. Again, hold down the space key to initiate the next trial. Steps 3 to 5 will repeat until all trials have been played.
+6. After all trials have been played, the audio player will stop playing noise. You can save the session's data by clicking on “Save”.
+
+Throughout the hole session, you can survey all experimental events at Matlab's console.
 
 ## Motivation
 
