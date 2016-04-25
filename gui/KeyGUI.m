@@ -7,13 +7,20 @@ properties
    pins 
 end
 
+properties (Constant)
+    grey = [.8, .8, .8];
+end
+
 properties (SetAccess = private)
     keys2React
     states
 end
 
 properties (Access = private)
-    textUI
+    window
+    keysUI
+    receivedUI
+    receivedTimer
 end
     
 methods
@@ -38,13 +45,17 @@ methods
         numPins = length(pins);
         assert(numPins == length(keys2React), 'KeyGUI:ValueError', ...
             'Length of keys2React and pins must be the same.');
-        hf = figure('Position', [0,0,numPins*65+20,100], ...
+        this.window = figure('Position', [0,0,numPins*65+20,150], ...
             'MenuBar', 'none', 'name', 'Key press interface', ...
             'KeyPressFcn', @this.keyPressFcn, ...
-            'KeyReleaseFc', @this.keyReleaseFcn);
-        movegui(hf, [600, -200]);
+            'KeyReleaseFc', @this.keyReleaseFcn, ...
+            'CloseRequestFcn', @this.cbCloseGUI);
+        movegui(this.window, [600, -200]);
+        this.receivedUI = uicontrol('Style', 'text', 'String', 'Reward', ...
+            'FontSize', 14, 'Position', [20, 120, 70, 20], ...
+            'ForegroundColor', this.grey);
         for index=1:numPins  
-            this.textUI(index) = uicontrol('Style', 'text', ...
+            this.keysUI(index) = uicontrol('Style', 'text', ...
                 'String', keys2React(index), ...
                 'FontSize', 14, ...
                 'Position', [10+(index-1)*65, 40, 60, 30]);
@@ -52,6 +63,19 @@ methods
         this.keys2React = keys2React;
         this.pins = pins;
         this.states = zeros(1, numPins);
+        this.receivedTimer = timer('ExecutionMode', 'singleShot', ...
+            'StartDelay', 1, 'TimerFcn', @this.timerCb);
+    end
+    
+    function send(this, ~, val)
+        % Displays 'Reward' after any pin is set to on
+        if val % pin must be set to on
+            set(this.receivedUI, 'ForegroundColor', 'green');
+            if ~strcmp(this.receivedTimer.Running, 'on')
+                % don't start a running timer
+                start(this.receivedTimer);
+            end
+        end
     end
     
 end
@@ -63,7 +87,7 @@ methods (Access = private)
         if ~isempty(index) && ~this.states(index)
             this.states(index) = true;
             this.signalEvent(this.pins(index), 1);
-            set(this.textUI(index), 'ForegroundColor', 'red');
+            set(this.keysUI(index), 'ForegroundColor', 'red');
             
         end
     end
@@ -73,8 +97,19 @@ methods (Access = private)
         if ~isempty(index)
             this.states(index) = false;
             this.signalEvent(this.pins(index), 0);
-            set(this.textUI(index), 'ForegroundColor', 'black');
+            set(this.keysUI(index), 'ForegroundColor', 'black');
         end
+    end
+       
+    function timerCb(this, ~, ~)
+        set(this.receivedUI, 'ForegroundColor', this.grey);
+    end
+    
+    function cbCloseGUI(this, ~, ~)
+        stop(this.receivedTimer);
+        delete(this.receivedTimer);
+        delete(this.window);
+        delete(this);
     end
     
 end
