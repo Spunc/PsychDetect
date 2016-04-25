@@ -188,8 +188,10 @@ methods (Access = private)
             return
         end
         this.nextAudioObject = this.trialGenerator.next();
-        nextCbTime = this.audioObject.duration + ...
-            this.maxReactionTime + this.nextAudioObject.startDelay;
+        offsetTime = max(this.audioObject.duration, this.maxReactionTime);
+        % offsetTime is minimal time between the beginning of two sound
+        % stimuli
+        nextCbTime = offsetTime + this.nextAudioObject.startDelay;
         % Start the timer that is not currently executing this callback
         if timerObj == this.stimulusTimerPing
             this.stimulusTimerPong.StartDelay = round2Milli(nextCbTime);
