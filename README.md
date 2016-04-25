@@ -38,14 +38,15 @@ You need a sound device that fulfils your specific needs. We run the software on
 
 Type `runExampleGapSession` to run a demonstration of a psychoacoustic gap detection experiment.
 
-The demonstration program will open two windows. The left window lets you control the experiment. It contains buttons for starting, stopping, and saving the experimental session. The right window is a demo implementation of the subject's input device. The subject uses it to initiate trials and to respond upon detected stimuli.
+The demonstration program will open two windows. The left window lets you control the experiment. It contains buttons for starting, stopping, and saving the experimental session. The right window is a demo implementation of the subject's I/O device. The subject uses it to initiate trials, to respond upon detected stimuli, and to get feedback about his performance.
 
 1. Focus on the left window and click on “Start”. This will make the audio player playing white noise.
 2. Focus on the right window and hold downs the space key to initiate a trial.
 3. After a random delay, the audio player will insert a small gap of silence into the noise.
 4. Release the space key as soon as you identify a gap.
-5. Again, hold down the space key to initiate the next trial. Steps 3 to 5 will repeat until all trials have been played.
-6. After all trials have been played, the audio player will stop playing noise. You can save the session's data by clicking on “Save”.
+5. If you are correct, 'Reward' will light up at the subject's I/O window.
+6. Again, hold down the space key to initiate the next trial. Steps 3 to 6 will repeat until all trials have been played.
+7. After all trials have been played, the audio player will stop playing noise. You can save the session's data by clicking on “Save”.
 
 Throughout the hole session, you can survey all experimental events at Matlab's console.
 
