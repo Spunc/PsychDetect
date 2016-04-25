@@ -6,12 +6,12 @@ classdef ExperimentController < handle
 % Author: Lasse Osterhagen
 
 properties (Access = private)
-    % Arduino device
-    arduino
+    % I/O device
+    ioDevice
     % AudioPlayer as sound device
     audioPlayer
-    % Event listener that reacts on events sent by the Arduino
-    arduinoListener
+    % Event listener that reacts on events sent by the I/O device
+    ioListener
     % Struct with all possible states
     states
 end
@@ -26,7 +26,7 @@ properties (SetAccess = private)
 end
 
 properties
-    % Pins of the Arduino
+    % Pins of the I/O device (Arduino)
     pins
 end
 
@@ -57,10 +57,10 @@ methods
         % ExperimentController(config)
         % Arguments:
         % config - a configuration struct with all parameters as
-        %   fieldnames (including: pins, arduino, audioPlayer,
+        %   fieldnames (including: pins, ioDevice, audioPlayer,
         %   audioObjectGenerator)
         this.pins = config.pins;
-        this.arduino = config.arduino;
+        this.ioDevice = config.ioDevice;
         this.audioPlayer = config.audioPlayer;
         this.audioObjectGenerator = config.audioObjectGenerator;
         % Init states
@@ -75,7 +75,7 @@ methods
         structfun(@delete, this.states);
         delete(this.audioObjectGenerator);
         delete(this.audioPlayer);
-        delete(this.arduino);
+        delete(this.ioDevice);
     end
     
     function value = get.maxReactionTime(this)
@@ -107,7 +107,7 @@ methods
             return
         end
         this.setState('readyDebounce');
-        this.arduinoListener = addlistener(this.arduino, 'DataReceived', ...
+        this.ioListener = addlistener(this.ioDevice, 'DataReceived', ...
             @this.dataReceivedCb);
         this.audioPlayer.start();
         this.notify('Running');
@@ -119,7 +119,7 @@ methods
             return
         end
         % Stop the experiment
-        delete(this.arduinoListener);
+        delete(this.ioListener);
         this.audioPlayer.stop();
         this.currentState = 'stopped';
         this.notify('Stopped');
@@ -127,9 +127,9 @@ methods
 
     function giveReward(this)
         % Operate the feeder to release a reward.
-        this.arduino.send(this.pins.feeder, 1);
+        this.ioDevice.send(this.pins.feeder, 1);
         pause(.01);
-        this.arduino.send(this.pins.feeder, 0);
+        this.ioDevice.send(this.pins.feeder, 0);
         this.notify('Reward');
     end
 
@@ -186,11 +186,11 @@ methods (Access = private)
         % Stop the experiment
         this.audioPlayer.stop();
         this.notify('Stopped');
-        delete(this.arduinoListener);
+        delete(this.ioListener);
     end
 
     function dataReceivedCb(this, ~, eventData)
-        % This function is called when the Arduino registered 
+        % This function is called when the I/O device registered 
         % a change at a pin. Actually, that will be a change
         % at the photo sensor.
         pin = eventData.pin;
