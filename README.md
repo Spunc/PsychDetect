@@ -59,3 +59,9 @@ Researchers often fail in replicating experimental results from other labs. Part
 Neuroscience makes use of computer programs for many year now, e. g. for stimulation or data acquisition. Those programs are becoming more and more sophisticated and can have dramatic impact on results. Despite of their importance, they are barely accessible.
 
 We want to encourage other scientist to share their software, too. Therefore, our software is licensed under the [GNU General Public License](https://en.wikipedia.org/wiki/GNU_General_Public_License) (GPL). GPL is a copyleft license that allows you to use, change, and redistribute the software while the GPL license must be retained. That means that the software must be kept open source.
+
+## Development status
+
+In principle, the software is set out to be platform independent, but it is currently tested on Windows only. Most likely, AudioPlayer needs some adaptation to find the right sound device.
+
+At the moment, `ContinuousBgndAudioPlayer`, which is the implementation of `AudioPlayer` we are using most, uses Matlab timer objects to continuously fill the audio buffer. The problem with Matlab timers is that their underlying thread runs with standard priority. If the CPU gets under heavy load, it can and occasionally does lead to buffer underflows. Code that is directly involved in filling the audio buffer should run on a high priority thread. It would be desirable to transfer AudioPlayer and related classes to C/C++ code, where it is possible to exert more influence on thread priority. ([Here is more information about this topic.](http://www.rossbencina.com/code/real-time-audio-programming-101-time-waits-for-nothing))
