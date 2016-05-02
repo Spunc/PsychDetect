@@ -60,7 +60,7 @@ Neuroscience makes use of computer programs for many year now, e. g. for stimula
 
 We want to encourage other scientist to share their software, too. Therefore, our software is licensed under the [GNU General Public License](https://en.wikipedia.org/wiki/GNU_General_Public_License) (GPL). GPL is a copyleft license that allows you to use, change, and redistribute the software while the GPL license must be retained. That means that the software must be kept open source.
 
-## Development status
+## Developmental status
 
 In principle, the software is set out to be platform independent, but it is currently tested on Windows only. Most likely, AudioPlayer needs some adaptation to find the right sound device.
 
