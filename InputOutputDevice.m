@@ -1,4 +1,4 @@
-classdef InputOutputDevice < handle
+classdef (Abstract) InputOutputDevice < handle
 %INPUTOUTPUTDEVICE is a class for a generic i/o device.
 %   It is an observable class that signals 'DataReceived' events if it got
 %   input. 'DataReceived' events have an 'InputDeviceData' object with the
@@ -7,9 +7,6 @@ classdef InputOutputDevice < handle
 %   To send a value to a specific pin, use the function send(pin, value).
 
 % Author: Lasse Osterhagen
-
-properties
-end
 
 events
     % The input device received data
