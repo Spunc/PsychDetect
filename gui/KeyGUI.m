@@ -67,6 +67,13 @@ methods
             'StartDelay', 1, 'TimerFcn', @this.timerCb);
     end
     
+    function delete(this)
+        stop(this.receivedTimer);
+        delete(this.receivedTimer);
+        delete(this.window);
+        delete(this);
+    end
+    
     function send(this, ~, val)
         % Displays 'Reward' after any pin is set to on
         if val % pin must be set to on
@@ -106,9 +113,6 @@ methods (Access = private)
     end
     
     function cbCloseGUI(this, ~, ~)
-        stop(this.receivedTimer);
-        delete(this.receivedTimer);
-        delete(this.window);
         delete(this);
     end
     
