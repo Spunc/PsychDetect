@@ -17,16 +17,18 @@ methods
 
     function evaluate(this, event)
         
+        % Append StopTime property
+        nEvent = [event; {'StopTime', []}];
         % Check if a field of class Target exists
         targetIdx = find(strcmp(event(:,1), 'Target'), 1);
         if ~isempty(targetIdx)
             target = event{targetIdx,2};
             switch target
                 case Target.No
-                    nEvent = [event; {'FalseAlarm', 0}];
+                    nEvent = [nEvent; {'FalseAlarm', 0}];
                     this.shamTrials{end+1} = nEvent;
                 case Target.Yes_Reward
-                    nEvent = [event; {'Hit', 0}];
+                    nEvent = [nEvent; {'Hit', 0}];
                     this.trials{end+1} = nEvent;
                 otherwise
                     throw(MException('NewTrialState:evaluate', ...
@@ -44,14 +46,18 @@ methods
         end
     end
     
-    function reClassifyTrial(this)
+    function reClassifyTrial(this, stopTime)
         % Call this function if a descend after a trial was a hit
+        stopIdx = find(strcmp(this.trials{end}(:,1), 'StopTime'), 1);
+        this.trials{end}{stopIdx,2} = stopTime;
         this.trials{end}{end} = 1;
     end
     
-    function reClassifiyShamTrial(this)
+    function reClassifiyShamTrial(this, stopTime)
         % Call this function if a descend after a sham trial was a false
         % alarm
+        stopIdx = find(strcmp(this.shamTrials{end}(:,1), 'StopTime'), 1);
+        this.shamTrials{end}{stopIdx,2} = stopTime;
         this.shamTrials{end}{end} = 1;
     end
     
