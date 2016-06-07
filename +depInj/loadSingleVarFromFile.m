@@ -21,7 +21,7 @@ function var = loadSingleVarFromFile(config)
 %   config.method = 'depInj.loadVarFromFile'
 %   config.fileName = 'testfile'
 %   config.varName = 'test'
-%   config.evalPath = 'getHomePath'
+%   config.evalPath = 'depInj.getHomePath'
 
 % Author: Lasse Osterhagen
 

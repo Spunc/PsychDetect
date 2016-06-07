@@ -17,7 +17,7 @@ else
     saveFileDir(end+1) = filesep();
 end
 
-path2ExpConf = [getHomePath(), 'experiment_config', filesep()];
+path2ExpConf = [depInj.getHomePath(), 'experiment_config', filesep()];
 
 % Create 'experiment_config/'
 checkCreate(path2ExpConf, ...

@@ -11,7 +11,7 @@ gapTrainingDir = ['gap', filesep(), 'training', filesep()];
 % the following fields:
 %   saveDir - path to directory for saving training data
 % The file should be placed in '~/experiment_config'.
-load([getHomePath(), 'experiment_config', filesep(), 'computerConfig']);
+load([depInj.getHomePath(), 'experiment_config', filesep(), 'computerConfig']);
 
 % Get subject ID
 subjectID = cell2mat(inputdlg('Subject ID:', 'Startup'));
