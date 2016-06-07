@@ -4,7 +4,7 @@
 % Author: Lasse Osterhagen
 
 load('cBgnAPGapConfig.mat')
-audioPlayer = createObjFromTree(audioPlayerConfig);
+audioPlayer = depInj.createObjFromTree(audioPlayerConfig);
 audioPlayer.start();
 pause(1);
 

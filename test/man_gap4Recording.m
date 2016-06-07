@@ -9,7 +9,7 @@ ga = repmat([ga{:}], 1, 2);
 
 % Create ContinuousBgndAudioPlayer
 load('cBgnAPGapConfig.mat')
-a = createObjFromTree(audioPlayerConfig);
+a = depInj.createObjFromTree(audioPlayerConfig);
 
 pause(1);
 a.start();

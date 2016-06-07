@@ -34,7 +34,7 @@ for index=1:length(fns)
         continue;
     end
     if isstruct(s.(fn)) && isfield(s.(fn), 'method') % another object in hierarchy
-        config.(fn) = createObjFromTree(s.(fn));
+        config.(fn) = depInj.createObjFromTree(s.(fn));
         continue;
     end
     config.(fn) = s.(fn);

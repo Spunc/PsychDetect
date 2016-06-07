@@ -27,7 +27,7 @@ subjectID = 't001';
 filePathPrefix = [subjectID, '_'];
 
 load('ecTestGapExperimentConfig.mat')
-ec = createObjFromTree(ecConfig);
+ec = depInj.createObjFromTree(ecConfig);
 
 lb = LogBook();
 lb.addObservable(ec, 'Running');

@@ -9,7 +9,7 @@ ta = [ta{:}];
 
 % Create ContinuousBgndAudioPlayer
 load('cBgnAPToneConfig.mat')
-a = createObjFromTree(audioPlayerConfig);
+a = depInj.createObjFromTree(audioPlayerConfig);
 
 pause(1);
 a.start();

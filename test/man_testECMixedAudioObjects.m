@@ -4,7 +4,7 @@
 % Author: Lasse Osterhagen
 
 load('ecAOArrayGapLaserConfig.mat');
-e = createObjFromTree(ecConfig);
+e = depInj.createObjFromTree(ecConfig);
 lb = LogBook();
 lb.addObservable(e, 'Running');
 lb.addObservable(e, 'Stopped');

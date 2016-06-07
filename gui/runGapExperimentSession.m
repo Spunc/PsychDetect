@@ -52,7 +52,7 @@ load('basicGapAudioPlayerConfig');
 load('arduinoConfig')
 ecConfig.pins = arduinoConfig.pins;
 ecConfig.ioDevice = ArduinoDevice();     % Windows only
-ecConfig.audioPlayer = createObjFromTree(audioPlayerConfig);
+ecConfig.audioPlayer = depInj.createObjFromTree(audioPlayerConfig);
 ecConfig.maxReactionTime = maxReactionTime;
 ecConfig.audioObjectGenerator = aoGenerator;
 ec = ExperimentController(ecConfig);

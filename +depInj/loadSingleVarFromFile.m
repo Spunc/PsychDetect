@@ -1,8 +1,8 @@
 function var = loadSingleVarFromFile(config)
 %LOADVARFROMFILE loads a variable from a .mat file
 %   This function is part of the dependency injection framework
-%   (createObjFromTree()). For the method field, write
-%   'loadVarFromFile'.
+%   (depInj.createObjFromTree()). For the method field, write
+%   'depInj.loadVarFromFile'.
 %   The struct config must have a field 'fileName' with
 %   a string that specifies the full path to the file that should be
 %   loaded.
@@ -12,13 +12,13 @@ function var = loadSingleVarFromFile(config)
 %   string, that evaluates to the path of the file.
 %   
 %   Example of a root struct that loads testfile.mat from current dirctory:
-%   config.method = 'loadVarFromFile'
+%   config.method = 'depInj.loadVarFromFile'
 %   config.fileName = 'testfile'
 %   config.varName = 'test'
 %
 %   Example of a root struct that loads testfile.mat from the home
 %   directory:
-%   config.method = 'loadVarFromFile'
+%   config.method = 'depInj.loadVarFromFile'
 %   config.fileName = 'testfile'
 %   config.varName = 'test'
 %   config.evalPath = 'getHomePath'

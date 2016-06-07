@@ -11,7 +11,7 @@ treeConf.method = 'TestClassA';
 treeConf.simpleProp1 = 'A_simpleProp1';
 treeConf.testClassB = classBConf;
 
-testClassA = createObjFromTree(treeConf);
+testClassA = depInj.createObjFromTree(treeConf);
 
 %% Test 1: Layer 1 simple properties
 assert(strcmp(testClassA.simpleProp1, treeConf.simpleProp1));

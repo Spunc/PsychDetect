@@ -1,13 +1,14 @@
 function map = createMap(config)
 %CREATEMAP Create a containers.Map from a config file.
 %   Use this class in the dependency injection framework
-%   (createObjFromTree()). For the method field, write 'createMap'. The
-%   struct config must have a field 'keys' with a cell array containing all
-%   keys and another field 'values' with a cell array containing all
-%   values. Those values will again be evaluated by createObjFromTree().
+%   (depInj.createObjFromTree()). For the method field, write
+%   'depInj.createMap'. The struct config must have a field 'keys' with a
+%   cell array containing all keys and another field 'values' with a cell
+%   array containing all values. Those values will again be evaluated by
+%   depInj.createObjFromTree().
 %
 %   Example of a root struct for a map:
-%   config.method = 'mapCreator'
+%   config.method = 'depInj.mapCreator'
 %   config.keys = {'key1', 'key2'}
 %   config.values = {ojb1
 %                       .method = 'Obj1'
@@ -40,7 +41,7 @@ vals = config.values;
 for index=1:length(keys)
     val = vals{index};
     if isstruct(val) && isfield(val, 'method')
-        valObj = createObjFromTree(val);
+        valObj = depInj.createObjFromTree(val);
     else
         valObj = val;
     end
