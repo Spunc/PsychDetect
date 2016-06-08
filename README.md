@@ -32,7 +32,8 @@ You need a sound device that fulfils your specific needs. We run the software on
 
 1. Clone the repository or download the zip-archive and extract it at your preferred location.
 2. Add the root directory to your Matlab path.
-3. Change to *test/* and type `runtests` and verify that all tests pass.
+3. Run `setupSystem`. This will create a directory *experiment_config* within your home directory to which configuration settings will be saved. It will also create a directory structure to which experimental data will be saved. You can change the default of the latter by specifying an alternative path as argument to `setupSystem`. Type `help setupSystem` for more information.
+4. Change to *test/* and type `runtests` and verify that all tests pass.
 
 ### Run a demonstration session 
 
