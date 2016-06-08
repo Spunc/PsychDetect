@@ -21,7 +21,7 @@ function runExampleGapSession()
 
 % Author: Lasse Osterhagen
 
-addpath('../gui/');
+addpath('../src/gui/');
 
 subjectID = 't001';
 filePathPrefix = [subjectID, '_'];
