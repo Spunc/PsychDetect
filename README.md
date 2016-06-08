@@ -31,13 +31,13 @@ You need a sound device that fulfils your specific needs. We run the software on
 ### Install
 
 1. Clone the repository or download the zip-archive and extract it at your preferred location.
-2. Add the root directory to your Matlab path.
+2. Add the directory *PsychDetect/src/* to your Matlab path.
 3. Run `setupSystem`. This will create a directory *experiment_config* within your home directory to which configuration settings will be saved. It will also create a directory structure to which experimental data will be saved. You can change the default of the latter by specifying an alternative path as argument to `setupSystem`. Type `help setupSystem` for more information.
-4. Change to *test/* and type `runtests` and verify that all tests pass.
+4. Change to *PsychDetect/test/*, type `runtests`, and verify that all tests pass.
 
 ### Run a demonstration session 
 
-Type `runExampleGapSession` to run a demonstration of a psychoacoustic gap detection experiment.
+Within *PsychDetect/test/*, type `runExampleGapSession` to run a demonstration of a psychoacoustic gap detection experiment.
 
 The demonstration program will open two windows. The left window lets you control the experiment. It contains buttons for starting, stopping, and saving the experimental session. The right window is a demo implementation of the subject's I/O device. The subject uses it to initiate trials, to respond upon detected stimuli, and to get feedback about his performance.
 
@@ -46,7 +46,7 @@ The demonstration program will open two windows. The left window lets you contro
 3. After a random delay, the audio player will insert a small gap of silence into the noise.
 4. Release the space key as soon as you identify a gap.
 5. If you are correct, *Reward* will light up at the subject's I/O window.
-6. Again, hold down the space key to initiate the next trial. Steps 3 to 6 will repeat until all trials have been played.
+6. Again, hold down the space key to initiate the next trial. Steps 3 to 6 will repeat until all trials have been played. Notice that there will also be catch trials, that are trials with a gap length of zero, intermixed with regular trials. See the [Wiki](https://github.com/Spunc/PsychDetect/wiki/Experimentation) for more information about experimentation and the go/no go procedure.
 7. After all trials have been played, the audio player will stop playing noise. You can save the session's data by clicking on “Save”.
 
 Throughout the hole session, you can survey all experimental events at Matlab's console.
