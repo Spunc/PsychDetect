@@ -51,6 +51,10 @@ The demonstration program will open two windows. The left window lets you contro
 
 Throughout the hole session, you can survey all experimental events at Matlab's console.
 
+### More information
+
+This project has a [Wiki](https://github.com/Spunc/PsychDetect/wiki)!
+
 ## Motivation
 
 The main goal of making our experimental software publicity available as an open source project is to allow other researchers to understand, how we conduct our experiments.
