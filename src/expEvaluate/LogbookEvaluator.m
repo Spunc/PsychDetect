@@ -40,6 +40,18 @@ methods
         shamTrials = cellfun(@(x) cell2struct(x(:,2), x(:,1), 1), ...
             cellShamTrials);
     end
+    
+    function ignoredTrials = getIgnoredTrials(this)
+        cellIgnoredTrials = this.newTrialState.ignoredTrials;
+        ignoredTrials = cellfun(@(x) cell2struct(x(:,2), x(:,1), 1), ...
+            cellIgnoredTrials);
+    end
+    
+    function ignoredShamTrials = getIgnoredShamTrials(this)
+        cellIgnoredShamTrials = this.newTrialState.ignoredShamTrials;
+        ignoredShamTrials = cellfun(@(x) cell2struct(x(:,2), x(:,1), 1), ...
+            cellIgnoredShamTrials);
+    end
 
     function strState = getNextEvent(this)
         % Returns the name of the next logbook event, or empty if at
