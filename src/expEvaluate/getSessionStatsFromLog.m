@@ -2,6 +2,8 @@ function stats = getSessionStatsFromLog(el, headerStr, trialFilter)
 %GETSESSIONSTATSFROMLOG computes session statistics from a eventLog.
 %   Arguments:
 %   el - eventLog of a LogBook
+%   headerStr - the field name of the trial struct that identifies the
+%       grouping factor
 %   trialFilter - optional: a function handle to a function that takes a
 %       trial struct and returns logically true or false dependent on
 %       whether the element should be included or not.

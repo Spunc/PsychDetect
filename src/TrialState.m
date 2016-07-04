@@ -102,37 +102,47 @@ methods
             this.abortedStimulus = this.nextAudioObject;
             return
         end
-
+        
+        % Reaction time
         descendDiffTime = ...
             descendTime - this.experimentController.getLastAOTime();
-
-        % Check if a early jump should be reinserted into the
-        % trialGenerator
-        if this.reinsert && descendDiffTime < 0
-            this.trialGenerator.append(this.audioObject);
-        end
-
-        % Jump not within reaction time window
-        if descendDiffTime < 0 || ... % jump too early
-                descendDiffTime > this.maxReactionTime % jump too late
+        
+        % Classify responses
+        if descendDiffTime > this.maxReactionTime
+            % Jump too late: ignore
             responseClass = 'Ignore';
-            responseSpecifier = 0;                
+            responseSpecifier = 0;
             this.experimentController.setState('readyDebounce');
-        % Jump within reaction time window
+        elseif descendDiffTime < 0
+            % Negative reaction time
+            if this.reinsert
+                % Append trials to end of TrialGenerator, if desired
+                this.trialGenerator.append(this.audioObject);
+            end
+            if this.audioObject.target == Target.Yes_Reward
+                % Trial
+                responseClass = 'Trial';
+            else
+                % Sham trial
+                responseClass = 'ShamTrial';
+            end
+            responseSpecifier = 'Ignore';
+            this.experimentController.setState('readyDebounce');
         else
             if this.audioObject.target == Target.Yes_Reward
-                % Target Trial
-                responseClass = 'Correct';
-                responseSpecifier = 'Reward';
+                % Trial
+                responseClass = 'Trial';
+                responseSpecifier = 'Correct';
                 this.experimentController.giveReward();
                 this.experimentController.setState('afterCorrect');
             else
                 % Sham trial
-                responseClass = 'FalseAlarm';
-                responseSpecifier = 0;
+                responseClass = 'ShamTrial';
+                responseSpecifier = 'FalseAlarm';
                 this.experimentController.setState('readyDebounce');
             end
         end
+        
         this.experimentController.signalEvent('Descend', ExperimentEventData( ...
             {'TrialNo', this.audioObject.id; ...
             'StopTime', descendDiffTime; ...
