@@ -14,6 +14,7 @@ methods
 
     function evaluate(this, event)
         kind = event{4,1};
+        specifier = event{4,2};
 
         % Simple ignored
         if strcmp(kind, 'Ignore')
@@ -25,19 +26,21 @@ methods
         stopTime = event{3,2};
 
         switch kind
-            case 'FalseAlarm'
-                if stopTime < 0
-                    this.evaluator.newTrialState.shiftShamTrial2Ignored();
-                    this.ignores = this.ignores+1;
-                else
-                    this.evaluator.newTrialState.reClassifiyShamTrial(stopTime);
+            case 'ShamTrial'
+                switch specifier
+                    case 'Ignore'
+                        this.evaluator.newTrialState.shiftShamTrial2Ignored();
+                        this.ignores = this.ignores+1;
+                    case 'FalseAlarm'
+                        this.evaluator.newTrialState.reClassifiyShamTrial(stopTime);
                 end
-            case 'Correct'
-                if stopTime < 0
-                    this.evaluator.newTrialState.shiftTrial2Ignored();
-                    this.ignores = this.ignores+1;
-                else
-                    this.evaluator.newTrialState.reClassifyTrial(stopTime);
+            case 'Trial'
+                switch specifier
+                    case 'Ignore'
+                        this.evaluator.newTrialState.shiftTrial2Ignored();
+                        this.ignores = this.ignores+1;
+                    case 'Correct'
+                        this.evaluator.newTrialState.reClassifyTrial(stopTime);
                 end
         end
 
