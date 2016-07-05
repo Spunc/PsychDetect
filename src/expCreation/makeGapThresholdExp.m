@@ -21,22 +21,8 @@ end
 
 rng('shuffle');
 
-% Create all possible combinations between tone levels and
-% startDelays.
-[p,q] = meshgrid(delays, gapDurations);
-pairs = [p(:), q(:)];
-pairs = repmat(pairs, trialFac, 1);
-
-% Create stimulus array
-packedTrials = arrayfun(@(x,y) GapStimulus(1, x, 'duration', y), ...
-    pairs(:,1), pairs(:,2), 'UniformOutput', false);
-trials = [packedTrials{:}];
-
-% Create sham trials
-shamTrialDelays = repmat(delays, 1, shamTrialFac);
-packedShamTrials = arrayfun(@(x) NullStimulus(0, x), ...
-    shamTrialDelays, 'UniformOutput', false);
-shamTrials = [packedShamTrials{:}];
+trials = createGapStimuli(gapDurations, delays, trialFac);
+shamTrials = createShamTrials(delays, shamTrialFac);
 
 % Trials and sham trials together
 complete = [trials, shamTrials];
