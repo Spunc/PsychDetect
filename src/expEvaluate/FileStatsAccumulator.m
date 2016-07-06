@@ -19,6 +19,8 @@ properties (SetAccess = private)
     falseAlarmRates
     % Grouping categories
     header
+    % Number of trials per grouping category
+    num
     % Hits per grouping category
     hits
     % Missings per grouping category
@@ -110,6 +112,7 @@ methods (Access = private)
                 % Accumulate statistics
                 this.rejections{fileIndex} = 'included';
                 this.header = [this.header; stats.header];
+                this.num = [this.num; stats.num];
                 this.hits = [this.hits; stats.hits];
                 this.missings = [this.missings; stats.missings];
                 this.hitRate = [this.hitRate; stats.hitRate];
