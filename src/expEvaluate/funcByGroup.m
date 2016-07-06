@@ -1,6 +1,16 @@
 function [out, groups] = funcByGroup(values, grouping, func)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%FUNCBYGROUP apply a function to every group of values.
+%   Arguments:
+%   values - an array of all values
+%   grouping - an array of the same size as values that specifies to which
+%       group the value belongs
+%   func - the function that should be applied to groups of values,
+%       specified as function handle
+
+assert(length(values) == length(grouping), ...
+    'The length of values and grouping must match.');
+assert(isa(func, 'function_handle'), ...
+    'func must be a function handle.');
 
 groups = unique(grouping);
 numGroups = length(groups);
