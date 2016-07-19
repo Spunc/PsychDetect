@@ -17,7 +17,8 @@ methods
         nextEvent = this.evaluator.getNextEvent();
         if ~(isempty(nextEvent)) && ~(any(strcmp(nextEvent, ...
                 {'Running', 'LaserEvent'})))
-            throwIncorrectEventError('StoppedState:evaluate', nextEvent);
+            throwIncorrectEventError('StoppedState:evaluate', ...
+                ['Stopped->', nextEvent]);
         end
     end
 

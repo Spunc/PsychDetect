@@ -46,7 +46,8 @@ methods
 
         if ~any(strcmp(this.evaluator.getNextEvent(), ...
                 {'Ascend', 'Stopped'}))
-            throwIncorrectEventError('DescemdState:evaluate', nextEvent);
+            throwIncorrectEventError('DescemdState:evaluate', ...
+                ['Descend->', nextEvent]);
         end
     end
 

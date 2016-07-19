@@ -18,7 +18,8 @@ methods
         nextEvent = this.evaluator.getNextEvent();
         if ~any(strcmp(nextEvent, ...
                 {'Ascend', 'Stopped'}))
-            throwIncorrectEventError('RunningState:evaluate', nextEvent);
+            throwIncorrectEventError('RunningState:evaluate', ...
+                ['Running->', nextEvent]);
         end
     end
 

@@ -6,6 +6,8 @@ function [out, groups] = funcByGroup(values, grouping, func)
 %       group the value belongs
 %   func - the function that should be applied to groups of values,
 %       specified as function handle
+%
+% Author: Lasse Osterhagen
 
 assert(length(values) == length(grouping), ...
     'The length of values and grouping must match.');

@@ -83,7 +83,7 @@ methods (Access = private)
                 this.currentState.evaluate(this.logbook{this.index});
             catch exception
                 match = strfind(exception.identifier, ...
-                    'ExperimentStats:IncorrectEvent');
+                    'ExperimentState:IncorrectEvent');
                 if ~isempty(match)
                     newMessage = [exception.message, ' @index=', ...
                         num2str(this.index)];
