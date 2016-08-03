@@ -15,8 +15,10 @@ end
 switch kind
     case 'simple'
         audioConfigFile = 'basicGapAudioPlayerConfig.mat';
+        ecReinsert = true;
     case 'laser'
         audioConfigFile = 'laserGapAudioPlayerConfig.mat';
+        ecReinsert = false; % Do not reinsert early-jump trials in blocked design experiments.
 end
 
 % Constants:
@@ -72,7 +74,7 @@ ecConfig.audioPlayer = depInj.createObjFromTree(audioPlayerConfig);
 ecConfig.maxReactionTime = maxReactionTime;
 ecConfig.audioObjectGenerator = aoGenerator;
 ec = ExperimentController(ecConfig);
-ec.setReinsertTrials(true);
+ec.setReinsertTrials(ecReinsert);
 
 % Register LogBook
 lb = LogBook();
