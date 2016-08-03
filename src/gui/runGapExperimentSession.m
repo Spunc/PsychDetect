@@ -1,7 +1,23 @@
-function runGapExperimentSession()
+function runGapExperimentSession(kind)
 %RUNGAPTRAININGSESSION opens a GUI to run a gap training session.
+%   Arguments:
+%   kind - a string identifying the kind of experiment:
+%       'simple' [default] - simple gap detection experiment
+%       'laser' - with laser stimulation
 
 % Author: Lasse Osterhagen
+
+% Determine kind of experiment and load the proper configuration files
+if nargin < 1
+    kind = 'simple';
+end
+
+switch kind
+    case 'simple'
+        audioConfigFile = 'basicGapAudioPlayerConfig.mat';
+    case 'laser'
+        audioConfigFile = 'laserGapAudioPlayerConfig.mat';
+end
 
 % Constants:
 maxReactionTime = 1;
@@ -46,7 +62,7 @@ aoGenerator = ArrayAOGenerator(experimentArray);
 % 'basicGapAudioPlayerConfig' must contain a struct named
 % 'audioPlayerConfig' with fields according to the dependency-injection
 % policy.
-load('basicGapAudioPlayerConfig');
+load(audioConfigFile);
 
 % Create ExperimentController config
 load('arduinoConfig')
