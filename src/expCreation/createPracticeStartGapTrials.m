@@ -2,6 +2,12 @@ function practiceTrials = createPracticeStartGapTrials(numPracticeTrials)
 %CREATEPRACTICESTARTTRIALS creates trials for a practice run.
 %   Arguments:
 %   num - the number of practice trials to generate
+%
+%   Practice trials have a relativly short start delay and are well above
+%   the detection threshold.
+
+% Author: Lasse Osterhagen
+
 if nargin < 1
     numPracticeTrials = 2;
 end

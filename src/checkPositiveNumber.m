@@ -1,5 +1,5 @@
 function checkPositiveNumber( value )
-% checkPositiveNumber throws an exception if value is nonnumercal or lower
+%CHECKPOSITIVENUMBER throws an exception if value is nonnumercal or lower
 % than 0.
 
 % Author: Lasse Osterhagen
@@ -9,4 +9,3 @@ function checkPositiveNumber( value )
     end
 
 end
-

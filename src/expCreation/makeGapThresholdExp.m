@@ -1,13 +1,20 @@
 function complete = makeGapThresholdExp(gapDurations, delays, trialFac, ...
     shamTrialFac)
 %MAKEGAPTHRESHOLDEXP creates an experiment with gap stimuli.
-% Arguments:
-% gapDurations - an array of the set of gap durations
-% delays - an array of the set of start delays [1.25:5.25]
-% trialFac - the multiplicator of trials [3]:
+%   Arguments (defaults in square brackets):
+%   gapDurations - an array of the set of gap durations
+%   delays - an array of the set of start delays [1.25:5.25]
+%   trialFac - the multiplicator of trials [3]
+%   shamTrialFac - the multiplicator of sham trials [5]:
+%
+%   The factors gapDurations and delays are completely crossed.
+%   The total number of trials is equal to:
+%       trialFac*length(gapDurations)*length(delays).
+%   The total number of sham trials is equal to:
+%       shamTrialfac*length(delays).
 %   numTrials = trialFac*length(gapDuration)*length(delays)
-% shamTrialFac - the multiplicator of sham trials [5]:
-%   numShamTrials = shamTrialFac*length(delays)
+
+% Author: Lasse Osterhagen
 
 if nargin < 4
     shamTrialFac = 5;
