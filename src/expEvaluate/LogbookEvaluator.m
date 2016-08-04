@@ -14,6 +14,7 @@ properties (SetAccess = private)
     descendState
     stoppedState
     newTrialState
+    controlState
 end
 
 properties (Access = private)
@@ -51,6 +52,12 @@ methods
         cellIgnoredShamTrials = this.newTrialState.ignoredShamTrials;
         ignoredShamTrials = cellfun(@(x) cell2struct(x(:,2), x(:,1), 1), ...
             cellIgnoredShamTrials);
+    end
+    
+    function controls = getControls(this)
+        cellControls = this.controlState.controls;
+        controls = cellfun(@(x) cell2struct(x(:,2), x(:,1), 1), ...
+            cellControls);
     end
 
     function strState = getNextEvent(this)
@@ -103,6 +110,7 @@ methods (Access = private)
         this.descendState = DescendState(this);
         this.stoppedState = StoppedState(this);
         this.newTrialState = NewTrialState(this);
+        this.controlState = ControlState(this);
     end
 
     function setCurrentState(this, newState)
@@ -117,6 +125,8 @@ methods (Access = private)
                 this.currentState = this.newTrialState;
             case 'Stopped'
                 this.currentState = this.stoppedState;
+            case 'Control'
+                this.currentState = this.controlState;
             otherwise
                 error(['Unknown event in logbook: ', ...
                     newState]);

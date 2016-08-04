@@ -11,7 +11,7 @@ methods
     function evaluate(this, ~)
         nextEvent = this.evaluator.getNextEvent();
         if ~any(strcmp(nextEvent, ...
-                {'NewTrial', 'Descend', 'Stopped'}))
+                {'NewTrial', 'Descend', 'Stopped', 'Control'}))
             throwIncorrectEventError('AscendState:evaluate', ...
                 ['Ascend->', nextEvent]);
         end

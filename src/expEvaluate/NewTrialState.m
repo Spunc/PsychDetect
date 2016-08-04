@@ -41,7 +41,7 @@ methods
         % Go to next event
         nextEvent = this.evaluator.getNextEvent();
         if ~any(strcmp(nextEvent, ...
-                {'NewTrial', 'Descend', 'Stopped'}))
+                {'NewTrial', 'Descend', 'Stopped', 'Control'}))
             throwIncorrectEventError('RunningState:evaluate', ...
                 ['NewTrial->', nextEvent]);
         end
