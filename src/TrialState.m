@@ -188,8 +188,16 @@ methods (Access = private)
         % Play stimulus
         this.experimentController.playAudioObject(this.nextAudioObject);
         this.audioObject = this.nextAudioObject;
-        this.experimentController.signalEvent( ...
-            'NewTrial', this.audioObject.getEvent());
+        % Signal event
+        if isa(this.audioObject, 'Stimulus')
+            % Event is a Stimulus
+            this.experimentController.signalEvent( ...
+                'NewTrial', this.audioObject.getEvent());
+        else
+            % Event is some other kind of AudioObject
+            this.experimentController.signalEvent( ...
+                'Control', this.audioObject.getEvent());
+        end
 
         % Get the next trial
         if ~this.trialGenerator.hasNext()
