@@ -16,7 +16,7 @@ methods
         this.stopTimes(end+1) = event{2};
         nextEvent = this.evaluator.getNextEvent();
         if ~(isempty(nextEvent)) && ~(any(strcmp(nextEvent, ...
-                {'Running', 'LaserEvent'})))
+                {'Running'})))
             throwIncorrectEventError('StoppedState:evaluate', ...
                 ['Stopped->', nextEvent]);
         end

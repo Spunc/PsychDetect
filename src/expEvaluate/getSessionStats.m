@@ -18,7 +18,12 @@ function stats = getSessionStats(trials, headerStr, adjustedFalseAlarmRate)
 
 % Author: Lasse Osterhagen
 
-validateattributes(trials, {'struct'}, {'nonempty'}, 1);
+if isempty(trials)
+    stats = [];
+    return;
+else
+    assert(isstruct(trials), 'Trials must be a struct.');
+end
 validateattributes(headerStr, {'char'}, {'nonempty'}, 2);
 validateattributes(adjustedFalseAlarmRate, {'numeric', 'scalar'}, ...
     {'positive'}, 3);
