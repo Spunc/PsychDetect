@@ -1,4 +1,5 @@
 classdef DescendState < LogbookState
+%DESCENDSTATE happens when a subject responded during a trial.
     
 % Author: Lasse Osterhagen
     
@@ -46,7 +47,7 @@ methods
 
         if ~any(strcmp(this.evaluator.getNextEvent(), ...
                 {'Ascend', 'Stopped'}))
-            throwIncorrectEventError('DescemdState:evaluate', ...
+            throwIncorrectEventError('DescendState:evaluate', ...
                 ['Descend->', nextEvent]);
         end
     end

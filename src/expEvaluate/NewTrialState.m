@@ -1,4 +1,5 @@
 classdef NewTrialState < LogbookState
+%NEWTRIALSTATE happens when an AudioObject has been played.
     
 % Author: Lasse Osterhagen
     

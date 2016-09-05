@@ -4,7 +4,9 @@ classdef LogbookEvaluator < handle
 %   logbook - event log of a LogBook instance.
 %
 %   Evaluation of data from a behavioral experiment starts in this class.
-%   It extracts trials and sham trials from a LogBook.
+%   It extracts trials, sham trials, and other AudioObjects from an event
+%   log. Trials will be classified into hits or missings, while sham trials
+%   will be classified into correct rejections or false alarms.
 %
 % Author: Lasse Osterhagen
 

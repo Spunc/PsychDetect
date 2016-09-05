@@ -1,4 +1,5 @@
 classdef AscendState < LogbookState
+%ASCENDSTATE is the state that happens when a subject initialized a trial.
     
 % Author: Lasse Osterhagen
     

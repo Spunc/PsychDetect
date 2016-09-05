@@ -1,4 +1,5 @@
 classdef RunningState < LogbookState
+%RUNNINGSTATE happens when an experiment has been started.
     
 % Author: Lasse Osterhagen
     
@@ -26,4 +27,3 @@ methods
 end
     
 end
-

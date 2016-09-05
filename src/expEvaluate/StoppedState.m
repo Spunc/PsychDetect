@@ -1,4 +1,5 @@
 classdef StoppedState < LogbookState
+%STOPPEDSTATED happens when an experiment has been stopped.
 
 % Author: Lasse Osterhagen
     
