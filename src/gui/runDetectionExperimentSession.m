@@ -1,9 +1,14 @@
-function runGapExperimentSession(kind)
-%RUNGAPTRAININGSESSION opens a GUI to run a gap training session.
+function runDetectionExperimentSession(kind, configurationFile)
+%RUNDETECTIONSEXPERIMENTSESSION opens a GUI to run a detection experiment session.
 %   Arguments:
 %   kind - a string identifying the kind of experiment:
-%       'simple' [default] - simple gap detection experiment
-%       'laser' - with laser stimulation
+%       'gap' [default] - simple gap detection experiment
+%       'laserGap' - gap detection experiment with laser stimulation
+%       'custom' - use a custom configuration file
+%   configurationFile - a custom configuration file; must be specified, if
+%       kind=='custom'. This file must contain a struct named
+%       'audioPlayerConfig' with fields according to the dependency
+%       injection policy.
 
 % Author: Lasse Osterhagen
 
@@ -13,17 +18,22 @@ if nargin < 1
 end
 
 switch kind
-    case 'simple'
+    case 'gap'
         audioConfigFile = 'basicGapAudioPlayerConfig.mat';
         ecReinsert = true;
-    case 'laser'
+    case 'laserGap'
         audioConfigFile = 'laserGapAudioPlayerConfig.mat';
         ecReinsert = false; % Do not reinsert early-jump trials in blocked design experiments.
+    case 'custom'
+        if nargin < 2
+            error('No custom configuration file specified.')
+        end
+        audioConfigFile = configurationFile;
 end
 
 % Constants:
 maxReactionTime = 1;
-experimentSaveDir = ['gap', filesep(), 'experiment', filesep()];
+experimentSaveDir = [kind, filesep(), 'experiment', filesep()];
 
 % Load computer specific configuration.
 % 'computerConfig.mat' must contain a struct named 'computerConfig' with
@@ -60,8 +70,7 @@ filePathPrefix = strcat(computerConfig.saveDir, experimentSaveDir, ...
 % Create ArrayAOGenerator
 aoGenerator = ArrayAOGenerator(experimentArray);
 
-% Load audioPlayer configuration
-% 'basicGapAudioPlayerConfig' must contain a struct named
+% Load audioPlayer configuration file, which must contain a struct named
 % 'audioPlayerConfig' with fields according to the dependency-injection
 % policy.
 load(audioConfigFile);

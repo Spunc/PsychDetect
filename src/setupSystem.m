@@ -36,10 +36,10 @@ checkCreate([saveFileDir, 'gap', filesep(), 'experiment'], defaultErrMsg);
 checkCreate([saveFileDir, 'tone'], defaultErrMsg);
 checkCreate([saveFileDir, 'tone', filesep(), 'training'], defaultErrMsg);
 checkCreate([saveFileDir, 'tone', filesep(), 'experiment'], defaultErrMsg);
+checkCreate([saveFileDir, 'custom', filesep(), 'experiment'], defaultErrMsg);
 
 % Create struct variable 'computerConfig' and save it within
 % 'experiment_config'.
-
 computerConfig.saveDir = saveFileDir; %#ok<STRNU>
 save([path2ExpConf, 'computerConfig'], 'computerConfig');
 
