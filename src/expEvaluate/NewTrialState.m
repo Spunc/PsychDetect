@@ -7,6 +7,7 @@ properties (SetAccess = private)
     shamTrials = cell.empty;
     ignoredTrials = cell.empty;
     ignoredShamTrials = cell.empty;
+    audioObjects = cell.empty
 end
 
 methods
@@ -35,7 +36,7 @@ methods
                         ['No rule for Target: ' char(target)]));
             end
         else
-            % Handle non-Stimulus AudioObjects here
+            this.audioObjects{end+1} = event;
         end
         
         % Go to next event

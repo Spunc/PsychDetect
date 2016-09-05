@@ -54,10 +54,12 @@ methods
             cellIgnoredShamTrials);
     end
     
-    function controls = getControls(this)
-        cellControls = this.controlState.controls;
-        controls = cellfun(@(x) cell2struct(x(:,2), x(:,1), 1), ...
-            cellControls);
+    function audioObjects = getAudioObjects(this)
+        cellAudioObjects = this.newTrialState.audioObjects;
+        % Maybe leave the audio objects in cells if their content
+        % diverges.
+        audioObjects = cellfun(@(x) cell2struct(x(:,2), x(:,1), 1), ...
+            cellAudioObjects);
     end
 
     function strState = getNextEvent(this)
