@@ -3,6 +3,7 @@ function runDetectionExperimentSession(kind, configurationFile)
 %   Arguments:
 %   kind - a string identifying the kind of experiment:
 %       'gap' [default] - simple gap detection experiment
+%       'tone' - simple tone detection experiment
 %       'laserGap' - gap detection experiment with laser stimulation
 %       'custom' - use a custom configuration file
 %   configurationFile - a custom configuration file; must be specified, if
@@ -12,35 +13,10 @@ function runDetectionExperimentSession(kind, configurationFile)
 
 % Author: Lasse Osterhagen
 
-% Determine kind of experiment and load the proper configuration files
+% Set default argument
 if nargin < 1
-    kind = 'simple';
+    kind = 'gap';
 end
-
-switch kind
-    case 'gap'
-        audioConfigFile = 'basicGapAudioPlayerConfig.mat';
-        ecReinsert = true;
-    case 'laserGap'
-        audioConfigFile = 'laserGapAudioPlayerConfig.mat';
-        ecReinsert = false; % Do not reinsert early-jump trials in blocked design experiments.
-    case 'custom'
-        if nargin < 2
-            error('No custom configuration file specified.')
-        end
-        audioConfigFile = configurationFile;
-end
-
-% Constants:
-maxReactionTime = 1;
-experimentSaveDir = [kind, filesep(), 'experiment', filesep()];
-
-% Load computer specific configuration.
-% 'computerConfig.mat' must contain a struct named 'computerConfig' with
-% the following fields:
-%   saveDir - path to directory for saving training data
-% The file must be placed in '~/experiment_config'.
-load([depInj.getHomePath(), 'experiment_config', filesep(), 'computerConfig']);
 
 % Get subject ID
 subjectID = cell2mat(inputdlg('Subject ID:', 'Startup'));
@@ -49,9 +25,9 @@ if isempty(subjectID)
     return;
 end
 
-% Load the experiment array and take the last 3 chars of
+% Load the experiment array and take the last 2 chars of
 % the name as experiment identifier
-[f, p] = uigetfile('*.mat', 'Select GapStimulus array');
+[f, p] = uigetfile('*.mat', ['Select ', kind, 'stimulus array']);
 if f == 0
     disp('Startup cancelled.');
     return;
@@ -63,24 +39,53 @@ if exist('experimentArray', 'var')
 else
     error('Selected file must contain an array named experimentArray.');
 end
-experimentID = f(end-6:end-4);
+experimentID = f(end-5:end-4);
+
+% General parameters:
+maxReactionTime = 1;
+ecReinsert = true; % default: repeat early-jump trials at the end of the session
+experimentSaveDir = [kind, filesep(), 'experiment', filesep()];
+
+% Determine kind of experiment and create corresponding
+% ExperimentController
+switch kind
+    case 'gap'
+        load('basicGapAudioPlayerConfig.mat')    
+    case 'laserGap'
+        load('laserGapAudioPlayerConfig.mat')
+        ecReinsert = false; % do not repeat early-jump trials in blocked design experiments.
+    case 'tone'
+        % Load config struct for ToneStimulusSampleFactory
+        load('basicToneAudioPlayerConfig.mat')
+        % Parameter of ToneStimulusSampleFactory depend on experimentArray
+        durFreqSet = extractDurFreqSetFromExpAr(experimentArray);
+        audioPlayerConfig.audioObjSamFacMap.values{1}.durFreqSet = durFreqSet;   
+    case 'custom'
+        if nargin < 2
+            error('No custom configuration file specified.')
+        end
+        load(configurationFile)
+end
+
+% Load computer specific configuration.
+% 'computerConfig.mat' must contain a struct named 'computerConfig' with
+% the following fields:
+%   saveDir - path to directory for saving training data
+% The file must be placed in '~/experiment_config'.
+load([depInj.getHomePath(), 'experiment_config', filesep(), 'computerConfig']);
+
 filePathPrefix = strcat(computerConfig.saveDir, experimentSaveDir, ...
     subjectID, '_', experimentID, '_');
 
 % Create ArrayAOGenerator
 aoGenerator = ArrayAOGenerator(experimentArray);
 
-% Load audioPlayer configuration file, which must contain a struct named
-% 'audioPlayerConfig' with fields according to the dependency-injection
-% policy.
-load(audioConfigFile);
-
 % Create ExperimentController config
 load('arduinoConfig')
 ecConfig.pins = arduinoConfig.pins;
 ecConfig.ioDevice = ArduinoDevice();     % Windows only
-ecConfig.audioPlayer = depInj.createObjFromTree(audioPlayerConfig);
 ecConfig.maxReactionTime = maxReactionTime;
+ecConfig.audioPlayer = depInj.createObjFromTree(audioPlayerConfig);
 ecConfig.audioObjectGenerator = aoGenerator;
 ec = ExperimentController(ecConfig);
 ec.setReinsertTrials(ecReinsert);

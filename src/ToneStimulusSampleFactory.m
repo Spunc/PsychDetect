@@ -15,16 +15,16 @@ properties (SetAccess = private)
     % Sample frequency
     sF
     % Length of gate in s
-    gateDuration
-    % Reverence dB SPL
-    refdB    
-end
-
-properties (Access = private)
+    gateDuration  
+    % Calibration struct
+    calib
     % Set of tone durations
     durations
     % Set of tone frequencies
-    frequencies       
+    frequencies
+end
+
+properties (Access = private)
     % Cell matrix of sine wave tables. Rows: durations; columns: frequencies
     waveTables
     % Reverence amplitudes of frequencies
@@ -74,11 +74,14 @@ methods
         assert(isstruct(calib) && all(isfield(calib, ...
             {'freq', 'voltage', 'refdB'})), 'ToneStimulusSampleFactory:ValueError', ...
             'calib must be a struct containg the fields freq, voltage, and refdB.');
-        
         this.sF = sF;
         this.gateDuration = gateDuration;
-        this.refdB = calib.refdB;
-        this.createwaveTables(durFreqSet, calib);
+        this.calib = calib;
+        this.createwaveTables(durFreqSet);
+    end
+    
+    function setDurFreqSet(this, durFreqSet)
+        this.createWaveTables(durFreqSet)
     end
 
     function numSamples = calcRequiredSamples(this, stimulus)
@@ -103,7 +106,7 @@ methods
         % Calculate the amplitude according to the calibration and
         % stimulus values
         amplitude = this.refAmplitudes(colIndex)*10^ ...
-            ((toneStimulus.level-this.refdB)/20);
+            ((toneStimulus.level-this.calib.refdB)/20);
         scaledSineWave = this.waveTables{rowIndex,colIndex}* amplitude;
         outMatrix(1:length(scaledSineWave)) = ...
             outMatrix(1:length(scaledSineWave)) + scaledSineWave;
@@ -113,7 +116,7 @@ end
 
 methods (Access = private)
     
-    function createwaveTables(this, durFreqSet, calib)
+    function createwaveTables(this, durFreqSet)
         % This function creates the wave tables for all tones to play.
         this.durations = unique(durFreqSet(:,1));
         this.frequencies = unique(durFreqSet(:,2));
@@ -155,8 +158,8 @@ methods (Access = private)
         
         % For all frequencies to play, find the closest corresponding
         % reference voltages and copy them to this.refAmplitudes
-        calibIndices = knnsearch(calib.freq', this.frequencies);
-        this.refAmplitudes = calib.voltage(calibIndices);
+        calibIndices = knnsearch(this.calib.freq', this.frequencies);
+        this.refAmplitudes = this.calib.voltage(calibIndices);
     end
 
     function [rowIndex, colIndex] = getWavetableIndices(this, toneStimulus)
