@@ -1,5 +1,5 @@
 function makeGapThresholdExpFiles(subjectID)
-%MAKEGAPTHRESHOLDEXPFILE creates gap detection experiment files from fixed
+%MAKEGAPTHRESHOLDEXPFILES creates gap detection experiment files from fixed
 %parameters.
 %   Arguments:
 %   subjectID - a string identifying the subject for which the session

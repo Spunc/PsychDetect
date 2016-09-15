@@ -1,33 +1,35 @@
-function complete = makeGapThresholdExp(gapDurations, delays, trialFac, ...
-    shamTrialFac)
-%MAKEGAPTHRESHOLDEXP creates an experiment with gap stimuli.
+function complete = makeToneThresholdExp(frequency, duration, levels, ...
+    delays, trialFac, shamTrialFac)
+%MAKETONETHRESHOLDEXP creates an experiment with tone stimuli.
 %   Arguments (defaults in square brackets):
-%   gapDurations - an array of the set of gap durations
+%   frequency - the frequency of the tones
+%   duration - tone duration
+%   levels - an array of tone levels
 %   delays - an array of the set of start delays [1.25:5.25]
 %   trialFac - the multiplicator of trials [3]
 %   shamTrialFac - the multiplicator of sham trials [5]:
 %
-%   The factors gapDurations and delays are completely crossed.
+%   The factors level and delays are completely crossed.
 %   The total number of trials is equal to:
-%       trialFac*length(gapDurations)*length(delays).
+%       trialFac*length(level)*length(delays).
 %   The total number of sham trials is equal to:
 %       shamTrialfac*length(delays).
 
 % Author: Lasse Osterhagen
 
-if nargin < 4
+if nargin < 6
     shamTrialFac = 5;
 end
-if nargin < 3
+if nargin < 5
     trialFac = 3;
 end
-if nargin < 2
+if nargin < 4
     delays = 1.25:5.25;
 end
 
 rng('shuffle');
 
-trials = createGapStimuli(gapDurations, delays, trialFac);
+trials = createToneStimuli(frequency, duration, levels, delays, trialFac);
 shamTrials = createShamTrials(delays, shamTrialFac);
 
 % Trials and sham trials together

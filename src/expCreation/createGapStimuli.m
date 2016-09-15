@@ -3,7 +3,7 @@ function trials = createGapStimuli(gapDurations, delays, repFactor)
 %   Arguments:
 %   gapDuration - an array of gap durations 
 %   delays - an array of delays [default: 1.25:5.25]
-%   repFactor - replication factor
+%   repFactor - replication factor [default: 1]
 %
 %   The factors gapDurations and delays are completely crossed. Thus,
 %   length(gapDurations)*length(delays) different stimuli will be created.
