@@ -14,7 +14,7 @@ function runDetectionExperimentSession(kind, configurationFile)
 
 % Determine kind of experiment and load the proper configuration files
 if nargin < 1
-    kind = 'simple';
+    kind = 'gap';
 end
 
 switch kind
