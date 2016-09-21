@@ -22,7 +22,9 @@ The main components are:
 #### Software
 
 PsychDetect needs at least Matlab Version 2015b. (It has not been tested for newer versions yet.)  
-In addition, you need [Psychtoolbox-3](http://psychtoolbox.org/) to be installed.
+In addition, you need the following toolboxes to be installed and to be added to your Matlab path:
+* [Psychtoolbox-3](http://psychtoolbox.org/)
+* [JSONlab](http://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab)
 
 #### Hardware
 

@@ -12,11 +12,12 @@ function setupSystem(saveFileDir)
 
 % Check existence of toolbox dependencies
 if isempty(help('PsychportAudio'))
-    error('Psychtoolbox (www.psychtoolbox.org) missing');
+    error(['Psychtoolbox missing.', char(10), ...
+        'Check psychtoolbox.org and install the missing toolbox.']);
 end
 if isempty(help('loadjson'))
-    error(['jsonlab toolbox missing. ', ...
-        'Check www.iso2mesh.sourceforge.net and install the missing toolbox.']);
+    error(['jsonlab toolbox missing. ' char(10), ...
+        'Check iso2mesh.sourceforge.net and install the missing toolbox.']);
 end
 
 % Make sure, last char of saveFileDir is a correct filesep char
