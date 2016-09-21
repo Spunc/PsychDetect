@@ -3,6 +3,7 @@ function runExperimentSession(kind, configurationFile)
 %   Arguments:
 %   kind - a string identifying the kind of experiment:
 %       'gap' - simple gap detection experiment [default]
+%       'tone' - a simple tone detection experiment
 %       'laserGap' - gap detection experiment with laser stimulation
 %       'custom' - use a custom configuration file
 %   configurationFile - a custom configuration file; must be specified, if
@@ -16,13 +17,50 @@ function runExperimentSession(kind, configurationFile)
 
 % Author: Lasse Osterhagen
 
-% Determine kind of experiment and load the proper configuration files
+% Set default argument
 if nargin < 1
     kind = 'gap';
 end
+
+% Get subject ID
+subjectID = cell2mat(inputdlg('Subject ID:', 'Startup'));
+if isempty(subjectID)
+    disp('Startup cancelled.');
+    return;
+end
+
+% Load the experiment array
+[f, p] = uigetfile('*.mat', ['Select ', kind, ' stimulus array']);
+if f == 0
+    disp('Startup cancelled.');
+    return;
+end
+load([p, f]);
+if exist('experimentArray', 'var')
+    assert(isa(experimentArray, 'AudioObject'), ...
+        'experimentArray is not of type AudioObject.');
+else
+    error('Selected file must contain an array named experimentArray.');
+end
+% Take the last 2 chars of the file name as experiment identifier
+experimentID = f(end-6:end-4);
+
+% General parameters:
+maxReactionTime = 1;
+experimentSaveDir = [kind, filesep(), 'experiment', filesep()];
+globalAudioConfig = loadjson('globalConfig.json');
+
+% Determine kind of experiment and create corresponding
+% ExperimentController
 switch kind
     case 'gap'
         audioPlayerConfig = loadjson('basicGapAudioPlayerConfig.json');
+        ecReinsert = true;
+    case 'tone'
+        audioPlayerConfig = loadjson('basicToneAudioPlayerConfig.json');
+        % Parameter of ToneStimulusSampleFactory depend on experimentArray
+        durFreqSet = extractDurFreqSetFromExpAr(experimentArray);
+        audioPlayerConfig.audioObjSamFacMap.values{1}.durFreqSet = durFreqSet;
         ecReinsert = true;
     case 'laserGap'
         audioPlayerConfig = loadjson('basicLaserGapAudioPlayerConfig.json');
@@ -42,12 +80,6 @@ switch kind
         error('Unknown experiment type');
 end
 
-globalAudioConfig = loadjson('globalConfig.json');
-
-% Constants:
-maxReactionTime = 1;
-experimentSaveDir = [kind, filesep(), 'experiment', filesep()];
-
 % Load computer specific configuration.
 % 'computerConfig.mat' must contain a struct named 'computerConfig' with
 % the following fields:
@@ -55,28 +87,6 @@ experimentSaveDir = [kind, filesep(), 'experiment', filesep()];
 % The file must be placed in '~/experiment_config'.
 load([depInj.getHomePath(), 'experiment_config', filesep(), 'computerConfig']);
 
-% Get subject ID
-subjectID = cell2mat(inputdlg('Subject ID:', 'Startup'));
-if isempty(subjectID)
-    disp('Startup cancelled.');
-    return;
-end
-
-% Load the experiment array and take the last 3 chars of
-% the name as experiment identifier
-[f, p] = uigetfile('*.mat', ['Select ', kind, ' stimulus array']);
-if f == 0
-    disp('Startup cancelled.');
-    return;
-end
-load([p, f]);
-if exist('experimentArray', 'var')
-    assert(isa(experimentArray, 'AudioObject'), ...
-        'experimentArray is not of type AudioObject.');
-else
-    error('Selected file must contain an array named experimentArray.');
-end
-experimentID = f(end-6:end-4);
 filePathPrefix = strcat(computerConfig.saveDir, experimentSaveDir, ...
     subjectID, '_', experimentID, '_');
 
