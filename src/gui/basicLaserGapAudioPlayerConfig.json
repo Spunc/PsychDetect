@@ -1,0 +1,38 @@
+{
+	"channelMapping": [0,6,7],
+	"audioObjSamFacMap": {
+		"keys": [
+			"GapStimulus",
+			"LaserBlockCtrl",
+			"NullStimulus"
+		],
+		"values": [
+			{
+				"audioSampleFactory": {
+					"gateDuration": 0.0005,
+					"method": "GapStimulusSampleFactory"
+				},
+				"numChannels": 3,
+				"method": "ExtendChanSampleFactory"
+			},
+			{
+				"numChannels": 3,
+				"method": "LaserBlockCtrlSampleFactory"
+			},
+			{
+				"method": "NullStimulusSampleFactory"
+			}
+		],
+		"method": "depInj.createMap"
+	},
+	"binCodeGenerator": null,
+	"sampleSource": {
+		"fileNames": [
+			"..\/resources\/calibNoise1.dat",
+			"..\/resources\/calibNoise2.dat"
+		],
+		"crossFadeDuration": 0.0005,
+		"method": "FilesSampleSource"
+	},
+	"method": "ContinuousBgndAudioPlayer"
+}

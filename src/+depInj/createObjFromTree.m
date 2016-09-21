@@ -1,5 +1,11 @@
-function obj = createObjFromTree(s)
+function obj = createObjFromTree(s, g)
 %CREATEOBJFROMTREE creates an object from a tree-shaped struct
+%   Arguments:
+%   s - a tree-formed struct that serves as a template for object
+%       construction
+%   g - an optional struct with global parameters that belong to several
+%       (sub-) objects.
+%
 %   This function creates an object (called root object) by dependency
 %   injection from a struct that has a tree-shaped from.
 %
@@ -21,10 +27,19 @@ function obj = createObjFromTree(s)
 %   root.param = 'someSimpleParameterOfClassA'
 %   root.param2.method = 'ClassB'
 %   root.param2.param = 'someSimpleParamOfClassB'
+%
 
 % Author: Lasse Osterhagen
 
-config = struct();
+if nargin < 2
+    % no globally defined parameters
+    g = [];
+end
+if isempty(g)
+    config = struct;
+else
+    config = g;
+end
 
 fns = fieldnames(s);
 for index=1:length(fns)
@@ -34,7 +49,7 @@ for index=1:length(fns)
         continue;
     end
     if isstruct(s.(fn)) && isfield(s.(fn), 'method') % another object in hierarchy
-        config.(fn) = depInj.createObjFromTree(s.(fn));
+        config.(fn) = depInj.createObjFromTree(s.(fn), g);
         continue;
     end
     config.(fn) = s.(fn);

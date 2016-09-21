@@ -15,16 +15,16 @@ properties (SetAccess = private)
     % Sample frequency
     sF
     % Length of gate in s
-    gateDuration  
-    % Calibration struct
-    calib
-    % Set of tone durations
-    durations
-    % Set of tone frequencies
-    frequencies
+    gateDuration
+    % A struct with calibration information
+    calib  
 end
 
 properties (Access = private)
+    % Set of tone durations
+    durations
+    % Set of tone frequencies
+    frequencies       
     % Cell matrix of sine wave tables. Rows: durations; columns: frequencies
     waveTables
     % Reverence amplitudes of frequencies
@@ -74,15 +74,17 @@ methods
         assert(isstruct(calib) && all(isfield(calib, ...
             {'freq', 'voltage', 'refdB'})), 'ToneStimulusSampleFactory:ValueError', ...
             'calib must be a struct containg the fields freq, voltage, and refdB.');
+        
         this.sF = sF;
         this.gateDuration = gateDuration;
         this.calib = calib;
-        this.createwaveTables(durFreqSet);
+        this.createWaveTables(durFreqSet);
     end
     
     function setDurFreqSet(this, durFreqSet)
-        this.createWaveTables(durFreqSet)
+        this.createWaveTables(durFreqSet);
     end
+        
 
     function numSamples = calcRequiredSamples(this, stimulus)
         % A stimulus needs a specific amount of samples that depends
@@ -116,7 +118,7 @@ end
 
 methods (Access = private)
     
-    function createwaveTables(this, durFreqSet)
+    function createWaveTables(this, durFreqSet)
         % This function creates the wave tables for all tones to play.
         this.durations = unique(durFreqSet(:,1));
         this.frequencies = unique(durFreqSet(:,2));

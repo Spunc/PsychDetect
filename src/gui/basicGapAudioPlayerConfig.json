@@ -1,0 +1,29 @@
+{
+	"method": "ContinuousBgndAudioPlayer",
+	"channelMapping": 0,
+	"audioObjSamFacMap": {
+		"keys": [
+			"GapStimulus",
+			"NullStimulus"
+		],
+		"values": [
+			{
+				"gateDuration": 0.0004,
+				"method": "GapStimulusSampleFactory"
+			},
+			{
+				"method": "NullStimulusSampleFactory"
+			}
+		],
+		"method": "depInj.createMap"
+	},
+	"binCodeGenerator": null,
+	"sampleSource": {
+		"fileNames": [
+			"..\/resources\/calibNoise1.dat",
+			"..\/resources\/calibNoise2.dat"
+		],
+		"crossFadeDuration": 0.0005,
+		"method": "FilesSampleSource"
+	}
+}

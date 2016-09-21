@@ -36,12 +36,15 @@ assert(iscell(config.values), 'createMap:InvalidFormat', ...
 
 map = containers.Map;
 
+% Save global properties
+globals = rmfield(config, {'keys', 'values'});
+
 keys = config.keys;
 vals = config.values;
 for index=1:length(keys)
     val = vals{index};
     if isstruct(val) && isfield(val, 'method')
-        valObj = depInj.createObjFromTree(val);
+        valObj = depInj.createObjFromTree(val, globals);
     else
         valObj = val;
     end

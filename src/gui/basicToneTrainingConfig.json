@@ -1,0 +1,11 @@
+{
+	"maxReactionTime": 1,
+	"stimTrainerConfig": {
+        "method": "ToneTrainingStimuliGenerator",
+		"frequencies": 10000,
+        "durations": 0.5,
+		"level": [65,10],
+		"levelBounds": [50,80],
+        "startDelayBounds": [0.1,4]
+	}
+}
