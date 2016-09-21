@@ -10,6 +10,15 @@ function setupSystem(saveFileDir)
 %   'experiment_data' will be created within your home directory to which
 %   experimental data will be saved.
 
+% Check existence of toolbox dependencies
+if isempty(help('PsychportAudio'))
+    error('Psychtoolbox (www.psychtoolbox.org) missing');
+end
+if isempty(help('loadjson'))
+    error(['jsonlab toolbox missing. ', ...
+        'Check www.iso2mesh.sourceforge.net and install the missing toolbox.']);
+end
+
 % Make sure, last char of saveFileDir is a correct filesep char
 if saveFileDir(end) == '/' || saveFileDir(end) == '\'
     saveFileDir(end) = filesep();
@@ -46,14 +55,18 @@ save([path2ExpConf, 'computerConfig'], 'computerConfig');
 end
 
 function checkCreate(dirPath, errormsg)
+%CHECKCREATE helper function that checks whether a directory exists and if
+%not, tries to create that directory.
 
 switch exist(dirPath, 'file')
     case 0
-        mkdir(dirPath)
+        if ~mkdir(dirPath)
+            error(errormsg);
+        end
     case 7
         % do nothing
     otherwise
-        error(errormsg)
+        error(errormsg);
 end
 
 end

@@ -1,0 +1,9 @@
+{
+	"maxReactionTime": 1,
+	"stimTrainerConfig": {
+		"method": "GapTrainingStimuliGenerator",
+		"gapDuration": [0.07,0.02],
+		"gapDurationBounds": [0.01,0.12],
+		"startDelayBounds": [0.1,4]
+	}
+}

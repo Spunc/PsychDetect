@@ -16,8 +16,8 @@ properties (SetAccess = private)
     sF
     % Length of gate in s
     gateDuration
-    % Reverence dB SPL
-    refdB    
+    % A struct with calibration information
+    calib  
 end
 
 properties (Access = private)
@@ -77,9 +77,14 @@ methods
         
         this.sF = sF;
         this.gateDuration = gateDuration;
-        this.refdB = calib.refdB;
-        this.createwaveTables(durFreqSet, calib);
+        this.calib = calib;
+        this.createWaveTables(durFreqSet);
     end
+    
+    function setDurFreqSet(this, durFreqSet)
+        this.createWaveTables(durFreqSet);
+    end
+        
 
     function numSamples = calcRequiredSamples(this, stimulus)
         % A stimulus needs a specific amount of samples that depends
@@ -103,7 +108,7 @@ methods
         % Calculate the amplitude according to the calibration and
         % stimulus values
         amplitude = this.refAmplitudes(colIndex)*10^ ...
-            ((toneStimulus.level-this.refdB)/20);
+            ((toneStimulus.level-this.calib.refdB)/20);
         scaledSineWave = this.waveTables{rowIndex,colIndex}* amplitude;
         outMatrix(1:length(scaledSineWave)) = ...
             outMatrix(1:length(scaledSineWave)) + scaledSineWave;
@@ -113,7 +118,7 @@ end
 
 methods (Access = private)
     
-    function createwaveTables(this, durFreqSet, calib)
+    function createWaveTables(this, durFreqSet)
         % This function creates the wave tables for all tones to play.
         this.durations = unique(durFreqSet(:,1));
         this.frequencies = unique(durFreqSet(:,2));
@@ -155,8 +160,8 @@ methods (Access = private)
         
         % For all frequencies to play, find the closest corresponding
         % reference voltages and copy them to this.refAmplitudes
-        calibIndices = knnsearch(calib.freq', this.frequencies);
-        this.refAmplitudes = calib.voltage(calibIndices);
+        calibIndices = knnsearch(this.calib.freq', this.frequencies);
+        this.refAmplitudes = this.calib.voltage(calibIndices);
     end
 
     function [rowIndex, colIndex] = getWavetableIndices(this, toneStimulus)
