@@ -5,14 +5,14 @@ classdef TrialState < ExperimentState
 % Author: Lasse Osterhagen
 
 properties
-    % Maximum time in s in which the subject needs to react upon a target
-    maxReactionTime
     % Reinsert an 'early jump' stimulus at the end of the
     % trialGenerator
     reinsert = false;
 end
 
 properties (Access = private)
+    % Maximum time in s in which the subject needs to react upon a target
+    maxReactionTime
     % A TrialGenerator that provides trials
     trialGenerator
     % Timer that handle sound stimuli. Two timers are needed to allow
@@ -56,13 +56,9 @@ methods
         delete(this.endTimer);
     end
 
-    function set.maxReactionTime(this, value)
-        % Set the maximum reaction time that will be rewarded.
-        if value < 0
-            error('Impossible argument: maxReaction time lower than 0.')
-        end
+    function setMaxReactionTime(this, value)
         this.maxReactionTime = value;
-        this.endTimer.StartDelay = value+.1; %#ok<MCSUP>
+        this.endTimer.StartDelay = value+.1;
     end
 
     function init(this)
@@ -127,14 +123,14 @@ methods
                 responseClass = 'ShamTrial';
             end
             responseSpecifier = 'Ignore';
-            this.experimentController.setState('readyDebounce');
+            this.experimentController.setState('timeout');
         else
             if this.audioObject.target == Target.Yes_Reward
                 % Trial
                 responseClass = 'Trial';
                 responseSpecifier = 'Correct';
                 this.experimentController.giveReward();
-                this.experimentController.setState('afterCorrect');
+                this.experimentController.setState('timeout');
             else
                 % Sham trial
                 responseClass = 'ShamTrial';

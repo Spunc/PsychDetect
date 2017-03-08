@@ -28,9 +28,7 @@ end
 properties
     % Pins of the I/O device (Arduino)
     pins
-end
-
-properties (Dependent)
+    % Maximum time in s in which the subject needs to react upon a target
     maxReactionTime
 end
 
@@ -63,11 +61,13 @@ methods
         this.ioDevice = config.ioDevice;
         this.audioPlayer = config.audioPlayer;
         this.audioObjectGenerator = config.audioObjectGenerator;
+        
         % Init states
         this.states.readyDebounce = ReadyDebounceState(this);
         this.states.trial = TrialState(this, ...
             this.audioObjectGenerator, config.maxReactionTime);
-        this.states.afterCorrect = AfterCorrectState(this);
+        % Set timeout span to maxReactionTime
+        this.states.timeout = TimeoutState(this, config.maxReactionTime);
         this.currentState = 'stopped';
     end
 
@@ -78,13 +78,14 @@ methods
         delete(this.ioDevice);
     end
     
-    function value = get.maxReactionTime(this)
-        % Get the maximum reaction time that will be rewarded.
-        value = this.states.trial.maxReactionTime;
-    end
-    
     function set.maxReactionTime(this, value)
-        this.states.trial.maxReactionTime = value;
+        % Set the maximum reaction time that will be rewarded.
+        if value < 0
+            error('Impossible argument: maxReaction time lower than 0.')
+        end
+        this.maxReactionTime = value;
+        this.states.timeout.setTimeoutSpan(value); %#ok<*MCSUP>
+        this.states.trial.setMaxReactionTime(value);
     end
     
     function setReinsertTrials(this, value)
@@ -149,8 +150,8 @@ methods
             case 'trial'
                 this.currentState = this.states.trial;
             % Subject received a reward
-            case 'afterCorrect'
-                this.currentState = this.states.afterCorrect;
+            case 'timeout'
+                this.currentState = this.states.timeout;
             otherwise
                 error(['No state ', newState, ' defined.']);
         end
