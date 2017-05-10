@@ -108,8 +108,14 @@ methods
             return
         end
         this.setState('readyDebounce');
-        this.ioListener = addlistener(this.ioDevice, 'DataReceived', ...
-            @this.dataReceivedCb);
+        if isvalid(this.ioDevice)
+            this.ioListener = addlistener(this.ioDevice, 'DataReceived', ...
+                @this.dataReceivedCb);
+        else
+            warning(sprintf( ...
+                ['InputOutputDevice was deleted.\n', ...
+                 'Control of the experiment will not be possible!'])); %#ok<SPWRN>
+        end
         this.audioPlayer.start();
         this.notify('Running');
     end
