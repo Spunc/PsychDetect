@@ -9,9 +9,9 @@ classdef GapStimulusSampleFactory < AudioObjectSampleFactory
     
 properties
     % Sample frequency
-    sF
+    sF = 44100;
     % Length of gate in s
-    gateDuration
+    gateDuration = 0.001;
 end
 
 properties (Access = private)
@@ -46,7 +46,6 @@ methods
         end
         this.sF = sF;
         this.gateDuration = gateDuration;
-        this.recalculateGate();
     end
 
     function set.sF(this, value)
