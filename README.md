@@ -44,7 +44,7 @@ Within *PsychDetect/test/*, type `runExampleGapSession` to run a demonstration o
 The demonstration program will open two windows. The left window lets you control the experiment. It contains buttons for starting, stopping, and saving the experimental session. The right window is a demo implementation of the subject's I/O device. The subject uses it to initiate trials, to respond upon detected stimuli, and to get feedback about his performance.
 
 1. Focus on the left window and click on *Start*. This will make the audio player playing white noise.
-2. Focus on the right window and hold downs the Control key (Ctrl) to initiate a trial.
+2. Focus on the right window and hold down the Control key (Ctrl) to initiate a trial.
 3. After a random delay, the audio player will insert a small gap of silence into the noise.
 4. Release the Control key as soon as you identify a gap.
 5. If you are correct, *Reward* will light up at the subject's I/O window.
