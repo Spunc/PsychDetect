@@ -8,11 +8,11 @@ properties
     % Reinsert an 'early jump' stimulus at the end of the
     % trialGenerator
     reinsert = false;
+    % Maximum time in s in which the subject needs to react upon a target
+    maxReactionTime
 end
 
 properties (Access = private)
-    % Maximum time in s in which the subject needs to react upon a target
-    maxReactionTime
     % A TrialGenerator that provides trials
     trialGenerator
     % Timer that handle sound stimuli. Two timers are needed to allow
@@ -56,9 +56,9 @@ methods
         delete(this.endTimer);
     end
 
-    function setMaxReactionTime(this, value)
+    function set.maxReactionTime(this, value)
         this.maxReactionTime = value;
-        this.endTimer.StartDelay = value+.1;
+        this.endTimer.StartDelay = value+.1; %#ok<MCSUP>
     end
 
     function init(this)

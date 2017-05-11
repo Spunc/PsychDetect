@@ -85,7 +85,7 @@ methods
         end
         this.maxReactionTime = value;
         this.states.timeout.setTimeoutSpan(value); %#ok<*MCSUP>
-        this.states.trial.setMaxReactionTime(value);
+        this.states.trial.maxReactionTime = value;
     end
     
     function setReinsertTrials(this, value)
